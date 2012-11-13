@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		{% block head %}
+		<meta charset="utf-8">
+		<title>{% block title %}A Flask App with CAS Authentication{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+		{% endblock %}
+    <style>
+      body {
+        margin-top: 30px;
+      }
+
+    </style>
+	</head>
+	<body>
+		<div class="container">
+			{% block content %}{% endblock %}
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+	</body>
+</html>

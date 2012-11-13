@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import networkx as nx
+import difflib
+import json
 from networkx import shortest_path, average_shortest_path_length
 from networkx.exception import NetworkXNoPath
 
@@ -31,6 +33,17 @@ for line in open(CONTEMP_FILE):
 
 print len(G), 'nodes'
 
+def lookup(query):
+  matches = difflib.get_close_matches(query, G.nodes())
+  if len(matches) < 0:
+    return json.dumps({'success': False, 'reason': "Couldn't find this artist"})
+  try:
+    path = shortest_path(G, matches[0], 'david-bowie')
+  except:
+    return json.dumps({'success': False, 'reason': "Couldn't find a path"})
+
+  return json.dumps({'success': True, 'path': path})
+
 def ask():
   q = raw_input('Enter an artist: ')
   target = 'david-bowie'
@@ -46,5 +59,6 @@ def ask():
   except:
     print 'no path :('
 
-while True:
-  ask()
+if __name__ == "__main__":
+  while True:
+    ask()
