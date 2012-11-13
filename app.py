@@ -3,7 +3,6 @@ import json
 import graph
 
 app = Flask(__name__)
-app.secret_key = 'asdasdjklasdjkl32'
 
 @app.route("/")
 def index():
