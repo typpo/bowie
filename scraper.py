@@ -15,19 +15,25 @@ REVERSE_START_POINTS = [
 ]
 OUTPUT = 'graph.dat'
 REVERSE_MODE = True
+CONTEMPORARY_MODE = True
+CONTEMPORARY_OUTPUT = 'contemp'
 
 def create_url(slug):
   return URL_FORMAT % slug
 
 def append_link(influencer, influenced):
-  f = open(OUTPUT, 'a')
+  if CONTEMPORARY_MODE:
+    f = open(CONTEMPORARY_OUTPUT, 'a')
+  else:
+    f = open(OUTPUT, 'a')
   f.write(('%s|%s\n') % (influencer, influenced))
   f.close()
 
 if REVERSE_MODE:
   Q = deque(REVERSE_START_POINTS)
 else:
-  Q = deque([START_POINT])
+  #Q = deque([START_POINT])
+  Q = deque(REVERSE_START_POINTS)
 
 visited = set()
 
@@ -39,7 +45,21 @@ while len(Q) > 0:
   print slug, '...'
   soup = BeautifulSoup(urllib.urlopen(create_url(slug)).read())
 
-  if REVERSE_MODE:
+  if CONTEMPORARY_MODE:
+    influences_section = soup.find('h4', {'class': 'artist-headers'}, text='Contemporaries')
+    if not influences_section:
+      print '\t no contemporaries'
+      continue
+
+    ilist = influences_section.findNext('ul')
+    for x in ilist.findAll('a'):
+      influence = x['href'].replace('/artist/', '')
+      append_link(influence, slug)
+      # contemporaries are bidirectional
+      append_link(slug, influence)
+      Q.append(influence)
+
+  elif REVERSE_MODE:
     influences_section = soup.find('h4', {'class': 'artist-headers'}, text='Influences')
     if not influences_section:
       print '\t no influences'
