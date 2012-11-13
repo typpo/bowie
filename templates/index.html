@@ -21,10 +21,10 @@
         $('#results').html('failed: ' + data.reason);
       }
       else {
-        var results = $.map(data.path.reverse(), function(x) {
+        var results = $.map(data.path, function(x) {
           return x.replace('-', ' ');
         });
-        $('#results').html(results.join('<br>&nbsp;&darr;<br>'));
+        $('#results').html(results.join('<br>&nbsp;&uarr;<br>'));
       }
     });
     return false;
