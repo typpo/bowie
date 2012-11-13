@@ -3,7 +3,6 @@ import networkx as nx
 import difflib
 import json
 from networkx import shortest_path, average_shortest_path_length
-from networkx.exception import NetworkXNoPath
 
 GRAPH_FILE = 'full2.dat'
 CONTEMP_FILE = 'full_contemp2.dat'
