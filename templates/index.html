@@ -4,14 +4,30 @@
   <h1>Six Degrees of David Bowie</h1>
   <form class="form-inline">
     <p>
-    How was <input type="text" value="Muse" /> influenced by David Bowie?
+    How was <input id="query" type="text" value="Muse" /> influenced by David Bowie?
     </p>
     <p>
-    <input class="btn" type="submit" value="Go" />
+    <input id="go" class="btn" type="submit" value="Go" />
     </p>
   </form>
 </div>
-<script>
+<div id="results" class="results">
 
+</div>
+<script>
+  $('#go').on('click', function() {
+    $.getJSON('/path/' + $('#query').val(), function(data) {
+      if (!data || !data.success) {
+        $('#results').html('failed: ' + data.reason);
+      }
+      else {
+        var results = $.map(data.path.reverse(), function(x) {
+          return x.replace('-', ' ');
+        });
+        $('#results').html(results.join('<br>&nbsp;&darr;<br>'));
+      }
+    });
+    return false;
+  });
 </script>
 {% endblock %}
