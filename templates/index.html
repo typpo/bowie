@@ -17,8 +17,10 @@
 </form>
 </div>
 <script>
+  $(function() {
   $('input.show-results').on('click', function() {
     $('#results').css({'min-height': $('#results').height()}).fadeTo('fast', 0, function() {
+      mixpanel.track('search', {q: $('#query').val()});
       $.getJSON('/path/' + $('#query').val(), function(data) {
         if (!data || !data.success) {
           $('#results').html('failed: ' + data.reason);
@@ -41,6 +43,8 @@
       });
     });
     return false;
+  });
+  mixpanel.track('load');
   });
 </script>
 {% endblock %}
